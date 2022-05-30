@@ -46,11 +46,11 @@ Evmos is a scalable, high-throughput Proof-of-Stake blockchain that is fully com
 interoperable with Ethereum. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/tendermint/tendermint) consensus engine.
 
 **Minimum Specification**<br>
-Cloud or Physical server.
-CPU Intel Core i7 10th Gen, Xeon 3.0 Ghz, 4 Cores or above
-Memory 8GB or above
-Storage HDD, SSD 1TB or above (SSD Recommended)
-Network static WAN IP required, Speed 100Mbps or faster
+Cloud or Physical server.<br>
+CPU Intel Core i7 10th Gen, Xeon 3.0 Ghz, 4 Cores or above<br>
+Memory 8GB or above<br>
+Storage HDD, SSD 1TB or above (SSD Recommended)<br>
+Network static WAN IP required, Speed 100Mbps or faster<br>
 
 **Note**: Requires [Go 1.17.5+](https://golang.org/dl/)
 
