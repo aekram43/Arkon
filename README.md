@@ -45,6 +45,13 @@ parent:
 Evmos is a scalable, high-throughput Proof-of-Stake blockchain that is fully compatible and
 interoperable with Ethereum. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/tendermint/tendermint) consensus engine.
 
+**Minimum Specification**<br>
+Cloud or Physical server.
+CPU Intel Core i7 10th Gen, Xeon 3.0 Ghz, 4 Cores or above
+Memory 8GB or above
+Storage HDD, SSD 1TB or above (SSD Recommended)
+Network static WAN IP required, Speed 100Mbps or faster
+
 **Note**: Requires [Go 1.17.5+](https://golang.org/dl/)
 
 ## Install Go 1.17.7
@@ -76,7 +83,7 @@ For validator. Please contact our administrator for allow network conneciton to 
 evmosd config chain-id {chain-id}
 evmosd init {moniker} --chain-id {chain-id}
 ```
-Replace our genesis.json.
+Replace our genesis.json.<br>
 Add our seed and persistent peers in config.toml
 ```bash
 Add seed_node 8357faf6ce3784cbb26d71f2e656ee3d5c155cde@34.126.163.145:26656
