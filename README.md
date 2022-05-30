@@ -79,8 +79,8 @@ evmosd init {moniker} --chain-id {chain-id}
 Replace our genesis.json.
 Add our seed and persistent peers in config.toml
 ```bash
-Add seed_node 1c0cb9a35492fd3982f9c856e5c87a24a6fff465@34.126.163.145:26656
-Add persistent_peers 1c0cb9a35492fd3982f9c856e5c87a24a6fff465@34.126.163.145:26656
+Add seed_node 8357faf6ce3784cbb26d71f2e656ee3d5c155cde@34.126.163.145:26656
+Add persistent_peers 8357faf6ce3784cbb26d71f2e656ee3d5c155cde@34.126.163.145:26656
 ```
 Then run the node.
 ```bash
