@@ -47,6 +47,17 @@ interoperable with Ethereum. It's built using the [Cosmos SDK](https://github.co
 
 **Note**: Requires [Go 1.17.5+](https://golang.org/dl/)
 
+## Install Go 1.17.7
+
+```bash
+wget https://go.dev/dl/go1.17.7.linux-amd64.tar.gz
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.17.7.linux-amd64.tar.gz
+export PATH=$PATH:/usr/local/go/bin
+go version
+
+export PATH=$PATH:$(go env GOPATH)/bin
+```
+
 ## Installation
 
 For prerequisites and detailed build instructions please read the [Installation](https://evmos.dev/quickstart/installation.html) instructions. Once the dependencies are installed, run:
@@ -56,6 +67,20 @@ make install
 ```
 
 Or check out the latest [release](https://github.com/tharsis/evmos/releases).
+
+## Validator Configuration
+
+For validator. Please contact our administrator for allow network conneciton to consensus. And provided chain-id.
+
+```bash
+evmosd config chain-id <chain-id>
+evmosd init <moniker> --chain-id <chain-id>
+```
+Replace our genesis.json.
+Add our seed and persistent peers in config.toml
+```bash
+evmosd start --json-rpc.enable=true --json-rpc.api="eth,web3,net,debug,txpool"
+```
 
 ## Quick Start
 
