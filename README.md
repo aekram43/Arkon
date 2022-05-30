@@ -66,20 +66,55 @@ For prerequisites and detailed build instructions please read the [Installation]
 make install
 ```
 
-Or check out the latest [release](https://github.com/tharsis/evmos/releases).
+Or check out the latest [release](https://github.com/aekram43/Arkon).
 
-## Validator Configuration
+## Chain Configuration
 
 For validator. Please contact our administrator for allow network conneciton to consensus. And provided chain-id.
 
 ```bash
-evmosd config chain-id <chain-id>
-evmosd init <moniker> --chain-id <chain-id>
+evmosd config chain-id {chain-id}
+evmosd init {moniker} --chain-id {chain-id}
 ```
 Replace our genesis.json.
 Add our seed and persistent peers in config.toml
 ```bash
+Add seed_node 1c0cb9a35492fd3982f9c856e5c87a24a6fff465@34.126.163.145:26656
+Add persistent_peers 1c0cb9a35492fd3982f9c856e5c87a24a6fff465@34.126.163.145:26656
+```
+Then run the node.
+```bash
 evmosd start --json-rpc.enable=true --json-rpc.api="eth,web3,net,debug,txpool"
+```
+
+## Become our validator
+
+After node running. It's time to become our validator with Arkon by stake some of assessment.
+First we need wallet key.
+Don't forget write down your mmemonic after this step.
+
+```bash
+evmosd keys add (keyname)
+```
+Promote this node to be validator. Don't forget to transfer some arkon to this key.
+
+```bash
+evmosd tx staking create-validator \
+  --amount=10000000000000000000000000arkon \
+  --pubkey=$(evmosd tendermint show-validator) \
+  --moniker="{your moniker}" \
+  --chain-id={chain-id} \
+  --commission-rate="0.05" \
+  --commission-max-rate="0.10" \
+  --commission-max-change-rate="0.01" \
+  --min-self-delegation="1000000" \
+  --gas="1000000" \
+  --gas-prices="0.025arkon" \
+  --from={key name}
+```
+After everything going fine. You can query validator to see it's working.
+```bash
+evmosd query staking validators
 ```
 
 ## Quick Start
