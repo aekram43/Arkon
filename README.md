@@ -4,7 +4,7 @@ parent:
 -->
 
 <div align="center">
-  <h1> Evmos </h1>
+  <h1> Arkon </h1>
 </div>
 
 <!-- TODO: add banner -->
@@ -85,22 +85,3 @@ evmosd start --json-rpc.enable=true --json-rpc.api="eth,web3,net,debug,txpool"
 ## Quick Start
 
 To learn how the Evmos works from a high-level perspective, go to the [Introduction](https://evmos.dev/intro/overview.html) section from the documentation. You can also check the instructions to [Run a Node](https://evmos.dev/quickstart/run_node.html).
-
-## Community
-
-The following chat channels and forums are a great spot to ask questions about Evmos:
-
-- [Evmos Twitter](https://twitter.com/EvmosOrg)
-- [Evmos Discord](https://discord.gg/evmos)
-- [Evmos Forum](https://commonwealth.im/evmos)
-- [Tharsis Twitter](https://twitter.com/TharsisHQ)
-
-## Contributing
-
-Looking for a good place to start contributing? Check out some [`good first issues`](https://github.com/tharsis/evmos/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22).
-
-For additional instructions, standards and style guides, please refer to the [Contributing](./CONTRIBUTING.md) document.
-
-## Careers
-
-See our open positions on [Cosmos Jobs](https://jobs.cosmos.network/project/evmos-d0sk1uxuh-remote/), [Notion](https://tharsis.notion.site), or feel free to [reach out](mailto:careers@thars.is) via email.
