@@ -4,8 +4,8 @@ before:
 
 builds:
   - id: "evmosd-darwin"
-    main: ./cmd/evmosd
-    binary: bin/evmosd
+    main: ./cmd/arkond
+    binary: bin/arkond
     env:
       - CGO_ENABLED=1
       - CC=o64-clang
@@ -19,8 +19,8 @@ builds:
     ldflags:
       - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=evmos -X github.com/cosmos/cosmos-sdk/version.AppName=evmosd -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
   - id: "evmosd-darwin-arm64"
-    main: ./cmd/evmosd
-    binary: bin/evmosd
+    main: ./cmd/arkond
+    binary: bin/arkond
     env:
       - CGO_ENABLED=1
       - CC=oa64-clang
@@ -34,8 +34,8 @@ builds:
     ldflags:
       - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=evmos -X github.com/cosmos/cosmos-sdk/version.AppName=evmosd -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
   - id: "evmosd-linux"
-    main: ./cmd/evmosd
-    binary: bin/evmosd
+    main: ./cmd/arkond
+    binary: bin/arkond
     env:
       - CGO_ENABLED=1
       - CC=gcc
@@ -49,8 +49,8 @@ builds:
     ldflags:
       - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=evmos -X github.com/cosmos/cosmos-sdk/version.AppName=evmosd -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
   - id: "evmosd-linux-arm64"
-    main: ./cmd/evmosd
-    binary: bin/evmosd
+    main: ./cmd/arkond
+    binary: bin/arkond
     env:
       - CGO_ENABLED=1
       - CC=aarch64-linux-gnu-gcc
@@ -64,8 +64,8 @@ builds:
     ldflags:
       - -s -w -X github.com/cosmos/cosmos-sdk/version.Name=evmos -X github.com/cosmos/cosmos-sdk/version.AppName=evmosd -X github.com/cosmos/cosmos-sdk/version.Version={{.Version}} -X github.com/cosmos/cosmos-sdk/version.Commit={{.Commit}}
   - id: "evmosd-windows"
-    main: ./cmd/evmosd
-    binary: bin/evmosd
+    main: ./cmd/arkond
+    binary: bin/arkond
     env:
       - CGO_ENABLED=1
       - CC=x86_64-w64-mingw32-gcc
