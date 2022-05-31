@@ -9,15 +9,15 @@ TMVERSION := $(shell go list -m github.com/tendermint/tendermint | sed 's:.* ::'
 COMMIT := $(shell git log -1 --format='%H')
 LEDGER_ENABLED ?= true
 BINDIR ?= $(GOPATH)/bin
-EVMOS_BINARY = evmosd
-EVMOS_DIR = evmos
+EVMOS_BINARY = arkond
+EVMOS_DIR = arkon
 BUILDDIR ?= $(CURDIR)/build
 SIMAPP = ./app
-HTTPS_GIT := https://github.com/tharsis/evmos.git
+HTTPS_GIT := https://github.com/aekram43/arkon.git
 DOCKER := $(shell which docker)
 DOCKER_BUF := $(DOCKER) run --rm -v $(CURDIR):/workspace --workdir /workspace bufbuild/buf
 NAMESPACE := tharsishq
-PROJECT := evmos
+PROJECT := arkon
 DOCKER_IMAGE := $(NAMESPACE)/$(PROJECT)
 COMMIT_HASH := $(shell git rev-parse --short=7 HEAD)
 DOCKER_TAG := $(COMMIT_HASH)
@@ -68,7 +68,7 @@ build_tags_comma_sep := $(subst $(whitespace),$(comma),$(build_tags))
 
 # process linker flags
 
-ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=evmos \
+ldflags = -X github.com/cosmos/cosmos-sdk/version.Name=arkon \
           -X github.com/cosmos/cosmos-sdk/version.AppName=$(EVMOS_BINARY) \
           -X github.com/cosmos/cosmos-sdk/version.Version=$(VERSION) \
           -X github.com/cosmos/cosmos-sdk/version.Commit=$(COMMIT) \
@@ -129,7 +129,7 @@ build-reproducible: go.sum
 	$(DOCKER) rm latest-build || true
 	$(DOCKER) run --volume=$(CURDIR):/sources:ro \
         --env TARGET_PLATFORMS='linux/amd64' \
-        --env APP=evmosd \
+        --env APP=arkond \
         --env VERSION=$(VERSION) \
         --env COMMIT=$(COMMIT) \
         --env CGO_ENABLED=1 \
@@ -144,12 +144,12 @@ build-docker:
 	$(DOCKER) tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:latest
 	# docker tag ${DOCKER_IMAGE}:${DOCKER_TAG} ${DOCKER_IMAGE}:${COMMIT_HASH}
 	# update old container
-	$(DOCKER) rm evmos || true
+	$(DOCKER) rm arkon || true
 	# create a new container from the latest image
-	$(DOCKER) create --name evmos -t -i ${DOCKER_IMAGE}:latest evmos
+	$(DOCKER) create --name arkon -t -i ${DOCKER_IMAGE}:latest arkon
 	# move the binaries to the ./build directory
 	mkdir -p ./build/
-	$(DOCKER) cp evmos:/usr/bin/evmosd ./build/
+	$(DOCKER) cp arkon:/usr/bin/arkond ./build/
 
 push-docker: build-docker
 	$(DOCKER) push ${DOCKER_IMAGE}:${DOCKER_TAG}
@@ -286,7 +286,7 @@ update-swagger-docs: statik
 .PHONY: update-swagger-docs
 
 godocs:
-	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/tharsis/evmos/types"
+	@echo "--> Wait a few seconds and visit http://localhost:6060/pkg/github.com/aekram43/arkon/types"
 	godoc -http=:6060
 
 # Start docs site at localhost:8080
@@ -437,7 +437,7 @@ lint-fix-contracts:
 format:
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs gofmt -w -s
 	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs misspell -w
-	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs goimports -w -local github.com/tharsis/evmos
+	find . -name '*.go' -type f -not -path "./vendor*" -not -path "*.git*" -not -path "./client/docs/statik/statik.go" -not -name '*.pb.go' | xargs goimports -w -local github.com/aekram43/arkon
 .PHONY: format
 
 ###############################################################################
@@ -468,7 +468,7 @@ proto-lint:
 	@$(DOCKER_BUF) lint --error-format=json
 
 proto-check-breaking:
-	@$(DOCKER_BUF) breaking --against $(HTTPS_GIT)#branch=main
+	@$(DOCKER_BUF) breaking --against $(HTTPS_GIT)#branch=dev
 
 
 TM_URL              = https://raw.githubusercontent.com/tendermint/tendermint/v0.34.15/proto/tendermint
@@ -525,13 +525,13 @@ ifeq ($(OS),Windows_NT)
 	mkdir localnet-setup &
 	@$(MAKE) localnet-build
 
-	IF not exist "build/node0/$(EVMOS_BINARY)/config/genesis.json" docker run --rm -v $(CURDIR)/build\evmos\Z evmosd/node "./evmosd testnet --v 4 -o /evmos --keyring-backend=test --ip-addresses evmosdnode0,evmosdnode1,evmosdnode2,evmosdnode3"
+	IF not exist "build/node0/$(EVMOS_BINARY)/config/genesis.json" docker run --rm -v $(CURDIR)/build\arkon\Z arkond/node "./arkond testnet --v 4 -o /arkon --keyring-backend=test --ip-addresses arkondnode0,arkondnode1,arkondnode2,arkondnode3"
 	docker-compose up -d
 else
 	mkdir -p localnet-setup
 	@$(MAKE) localnet-build
 
-	if ! [ -f localnet-setup/node0/$(EVMOS_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/localnet-setup:/evmos:Z evmosd/node "./evmosd testnet --v 4 -o /evmos --keyring-backend=test --ip-addresses evmosdnode0,evmosdnode1,evmosdnode2,evmosdnode3"; fi
+	if ! [ -f localnet-setup/node0/$(EVMOS_BINARY)/config/genesis.json ]; then docker run --rm -v $(CURDIR)/localnet-setup:/arkon:Z arkond/node "./arkond testnet --v 4 -o /arkon --keyring-backend=test --ip-addresses arkondnode0,arkondnode1,arkondnode2,arkondnode3"; fi
 	docker-compose up -d
 endif
 
@@ -548,28 +548,28 @@ localnet-clean:
 localnet-unsafe-reset:
 	docker-compose down
 ifeq ($(OS),Windows_NT)
-	@docker run --rm -v $(CURDIR)\localnet-setup\node0\evmosd:evmos\Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node1\evmosd:evmos\Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node2\evmosd:evmos\Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)\localnet-setup\node3\evmosd:evmos\Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node0\arkond:arkon\Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node1\arkond:arkon\Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node2\arkond:arkon\Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
+	@docker run --rm -v $(CURDIR)\localnet-setup\node3\arkond:arkon\Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
 else
-	@docker run --rm -v $(CURDIR)/localnet-setup/node0/evmosd:/evmos:Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node1/evmosd:/evmos:Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node2/evmosd:/evmos:Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
-	@docker run --rm -v $(CURDIR)/localnet-setup/node3/evmosd:/evmos:Z evmosd/node "./evmosd unsafe-reset-all --home=/evmos"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node0/arkond:/arkon:Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node1/arkond:/arkon:Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node2/arkond:/arkon:Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
+	@docker run --rm -v $(CURDIR)/localnet-setup/node3/arkond:/arkon:Z arkond/node "./arkond unsafe-reset-all --home=/arkon"
 endif
 
 # Clean testnet
 localnet-show-logstream:
 	docker-compose logs --tail=1000 -f
 
-.PHONY: build-docker-local-evmos localnet-start localnet-stop
+.PHONY: build-docker-local-arkon localnet-start localnet-stop
 
 ###############################################################################
 ###                                Releasing                                ###
 ###############################################################################
 
-PACKAGE_NAME:=github.com/tharsis/evmos
+PACKAGE_NAME:=github.com/aekram43/arkon
 GOLANG_CROSS_VERSION  = v1.17.1
 GOPATH ?= '$(HOME)/go'
 release-dry-run:

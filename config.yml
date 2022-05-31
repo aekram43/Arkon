@@ -10,9 +10,9 @@ faucet:
   name: bob 
   coins: ["10aevmos"]
 build:
-  binary: "evmosd"
+  binary: "arkond"
 init:
-  home: "$HOME/.evmosd"
+  home: "$HOME/.arkond"
   app:
     evm-rpc:
       address: "0.0.0.0:8545"     # change the JSON-RPC address and port
