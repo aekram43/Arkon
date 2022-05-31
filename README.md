@@ -130,4 +130,4 @@ To learn how the Evmos works from a high-level perspective, go to the [Introduct
 
 ## Contact Administrator
 
-Discord MaXimA#5455
+Discord: MaXimA#5455
