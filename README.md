@@ -127,3 +127,7 @@ evmosd query staking validators
 ## Quick Start
 
 To learn how the Evmos works from a high-level perspective, go to the [Introduction](https://evmos.dev/intro/overview.html) section from the documentation. You can also check the instructions to [Run a Node](https://evmos.dev/quickstart/run_node.html).
+
+## Contact Administrator
+
+Discord MaXimA#5455
