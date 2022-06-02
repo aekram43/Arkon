@@ -42,7 +42,7 @@ parent:
   </a>
 </div>
 
-Evmos is a scalable, high-throughput Proof-of-Stake blockchain that is fully compatible and
+Arkon is a scalable, high-throughput Proof-of-Stake blockchain that is fully compatible and
 interoperable with Ethereum. It's built using the [Cosmos SDK](https://github.com/cosmos/cosmos-sdk/) which runs on top of [Tendermint Core](https://github.com/tendermint/tendermint) consensus engine.
 
 **Minimum Specification**<br>
@@ -80,8 +80,8 @@ Or check out the latest [release](https://github.com/aekram43/Arkon).
 For validator. Please contact our administrator for allow network conneciton to consensus. And provided chain-id.
 
 ```bash
-evmosd config chain-id {chain-id}
-evmosd init {moniker} --chain-id {chain-id}
+arkond config chain-id {chain-id}
+arkond init {moniker} --chain-id {chain-id}
 ```
 Replace our genesis.json.<br>
 Add our seed and persistent peers in config.toml
@@ -91,7 +91,7 @@ Add persistent_peers 8357faf6ce3784cbb26d71f2e656ee3d5c155cde@34.126.163.145:266
 ```
 Then run the node.
 ```bash
-evmosd start --json-rpc.enable=true --json-rpc.api="eth,web3,net,debug,txpool"
+arkond start --json-rpc.enable=true --json-rpc.api="eth,web3,net,debug,txpool"
 ```
 
 ## Become our validator
@@ -101,14 +101,14 @@ First we need wallet key.
 Don't forget write down your mmemonic after this step.
 
 ```bash
-evmosd keys add (keyname)
+arkond keys add (keyname)
 ```
 Promote this node to be validator. Don't forget to transfer some arkon to this key.
 
 ```bash
-evmosd tx staking create-validator \
+arkond tx staking create-validator \
   --amount=10000000000000000000000000arkon \
-  --pubkey=$(evmosd tendermint show-validator) \
+  --pubkey=$(arkond tendermint show-validator) \
   --moniker="{your moniker}" \
   --chain-id={chain-id} \
   --commission-rate="0.05" \
@@ -121,12 +121,8 @@ evmosd tx staking create-validator \
 ```
 After everything going fine. You can query validator to see it's working.
 ```bash
-evmosd query staking validators
+arkond query staking validators
 ```
-
-## Quick Start
-
-To learn how the Evmos works from a high-level perspective, go to the [Introduction](https://evmos.dev/intro/overview.html) section from the documentation. You can also check the instructions to [Run a Node](https://evmos.dev/quickstart/run_node.html).
 
 ## Contact Administrator
 
